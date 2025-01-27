@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Charm:wght@400;700&family=Permanent+Marker&display=swap');
+
+:root {
+    --light-pink: #f7d2f4;
+    --pink: #f08099;
+    --violet-1: #641e61;
+    --violet-2: #630b87;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100vh;
+}
+body {
+    height: 95%;
+    background: linear-gradient(var(--light-pink), var(--pink), var(--pink));
+    overflow-y: auto;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a:visited {
+    color: inherit;
+}
+
+
+h1 {
+    font-family: 'Charm', sans-serif;
+    color: var(--violet-1);
+    font-weight: 700;
+    font-size: 56px;
+}
+button, a.btn {
+    padding: 10px 30px;
+    background-color: var(--violet-2);
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-size: 22px;
+    font-family: 'Permanent Marker', serif;
+}
+#btns-row {
+    width: 80%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+}
+#back {
+    background-color: var(--violet-1);
+}

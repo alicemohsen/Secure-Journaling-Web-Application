@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styling.css') }}">
+    <style>
+        body {
+            background-repeat: no-repeat;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        #subtitle {
+            font-family: 'Charm', sans-serif;
+            color: var(--violet-1);
+            font-size: 23px;
+            margin: 5px;
+            opacity: 0.8;
+        }
+        section {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #create-btn {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+            height: fit-content;
+        }
+        #create-btn img {
+            height: 40px;
+            margin-left: 10px;
+            translate: 0 -3px;
+        }
+        p {
+            font-family: 'Caveat', sans-serif;
+            color: var(--violet-1);
+            font-size: 25px;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        button {
+            height: fit-content;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #1e1e64;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Secret Journal</title>
+</head>
+<body>
+    <header>
+        <h1 id="title">Secret Journal</h1>
+        <h2 id="subtitle">Your private thoughts, safely</h2>
+    </header>
+    <section id="create">
+        <a id="create-btn" class="btn" href="/create">
+            Create Journal
+            <img src="{{ url_for('static', filename='images/create-icon.png') }}" alt="pen-icon">
+        </a>
+        <p>
+            Write your today's journal, ideas, thoughts, and save them in encrypted private format
+        </p>
+    </section>
+    <section id="create">
+        <a id="create-btn" class="btn" href="/import">
+            Import Journal
+            <img src="{{ url_for('static', filename='images/import-icon.png') }}" alt="unlock-icon">
+        </a>
+        <p>
+            Unlock & Read your previously written journals which were encrypted using this app itself
+        </p>
+    </section>
+</body>
+</html>

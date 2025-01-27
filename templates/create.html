@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/styling.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <style>
+        body {
+            display: grid;
+            grid-template-rows: 1fr 4fr 1fr;
+        }
+        h1 {
+            font-size: 40px;
+            padding-left: 30px;
+            margin: 30px 0;
+        }
+        #main {
+            position: relative;
+            margin: 20px auto;
+            width: 80%;
+        }
+        #main > * {
+            border-color: var(--violet-1);
+            border-width: 2px;
+        }
+        #editor {
+            height: 90%;
+            overflow-y: auto;
+        }
+    </style>
+    <title>Create Journal</title>
+</head>
+<body>
+    <h1>Write Your Journal</h1>
+    <div id="main">
+        <div id="editor"></div>
+    </div>
+    <div id="btns-row">
+        <button id="back">Back</button>
+        <button id="export">Export</button>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script>
+        const quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline'],
+                ],
+            },
+            placeholder: 'Just write...',
+            theme: 'snow',
+        });
+    </script>
+</body>
+</html>
