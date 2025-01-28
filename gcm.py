@@ -1,12 +1,13 @@
 import os
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import base64
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
-import base64
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-# Key derivation function
-def derive_key(password, salt, iterations=100000, key_length=32):
+
+def derive_key(password: str, salt: bytes, iterations: int=100000, key_length: int=32) -> bytes:
+    """Derive a key from a password using PBKDF2 hashing algorithm."""
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=key_length,
@@ -16,8 +17,9 @@ def derive_key(password, salt, iterations=100000, key_length=32):
     )
     return kdf.derive(password.encode())
 
-# Encryption
-def encrypt_journal(password, plaintext):
+
+def encrypt_journal(password: str, plaintext: str) -> bytes:
+    """Encrypt a journal entry using AES-GCM encryption."""
     salt = os.urandom(16)  # Generate random salt
     iv = os.urandom(12)    # Generate random IV
     key = derive_key(password, salt)  # Derive key from password
@@ -28,11 +30,12 @@ def encrypt_journal(password, plaintext):
     ciphertext = encryptor.update(plaintext.encode()) + encryptor.finalize()
 
     # Return salt, IV, ciphertext, and authentication tag
-    return base64.b64encode(salt + iv + ciphertext + encryptor.tag).decode()
+    return base64.b64encode(salt + iv + ciphertext + encryptor.tag)
 
-# Decryption
-def decrypt_journal(password, encrypted_data):
-    decoded_data = base64.b64decode(encrypted_data)
+
+def decrypt_journal(password: str, encrypted_data: bytes) -> str:
+    """Decrypt an encrypted journal entry using AES-GCM decryption."""
+    decoded_data = encrypted_data
     salt, iv = decoded_data[:16], decoded_data[16:28]
     ciphertext, tag = decoded_data[28:-16], decoded_data[-16:]
     key = derive_key(password, salt)
@@ -44,8 +47,9 @@ def decrypt_journal(password, encrypted_data):
 
     return plaintext.decode()
 
+
 # Example usage
-if name == "main":
+if __name__ == "__main__":
     # User journal entry
     journal_entry = "Today I learned about AES-GCM encryption!"
 
