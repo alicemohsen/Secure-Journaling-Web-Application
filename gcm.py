@@ -25,7 +25,7 @@ def encrypt_journal(password: str, plaintext: str) -> bytes:
     key = derive_key(password, salt)  # Derive key from password
 
     # AES-GCM encryption
-    cipher = Cipher(algorithms.AES(key), modes.GCM(iv), backend=default_backend())
+    cipher = Cipher(algorithms.AES(key), modes.GCM(iv, min_tag_length=16), backend=default_backend())
     encryptor = cipher.encryptor()
     ciphertext = encryptor.update(plaintext.encode()) + encryptor.finalize()
 
@@ -33,9 +33,9 @@ def encrypt_journal(password: str, plaintext: str) -> bytes:
     return base64.b64encode(salt + iv + ciphertext + encryptor.tag)
 
 
-def decrypt_journal(password: str, encrypted_data: bytes) -> str:
+def decrypt_journal(password: str, encrypted_data: str) -> str:
     """Decrypt an encrypted journal entry using AES-GCM decryption."""
-    decoded_data = encrypted_data
+    decoded_data = base64.b64decode(encrypted_data)
     salt, iv = decoded_data[:16], decoded_data[16:28]
     ciphertext, tag = decoded_data[28:-16], decoded_data[-16:]
     key = derive_key(password, salt)

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styling.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/png" sizes="96x96">
     <style>
         body {
             background-repeat: no-repeat;
@@ -27,34 +28,24 @@
             align-items: center;
             justify-content: center;
         }
-        #create-btn {
+        #create-btn, #import-btn {
             display: flex;
             flex-flow: row nowrap;
             justify-content: center;
             align-items: center;
             height: fit-content;
         }
-        #create-btn img {
+        #create-btn img, #import-btn img {
             height: 40px;
             margin-left: 10px;
             translate: 0 -3px;
         }
         p {
-            font-family: 'Caveat', sans-serif;
+            font-family: 'Merienda', sans-serif;
             color: var(--violet-1);
-            font-size: 25px;
+            font-size: 15px;
             opacity: 0.9;
             margin-top: 10px;
-        }
-        button {
-            height: fit-content;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #1e1e64;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
         }
     </style>
     <title>Secret Journal</title>
@@ -74,10 +65,11 @@
         </p>
     </section>
     <section id="create">
-        <a id="create-btn" class="btn" href="/import">
+        <a id="import-btn" class="btn" href="/import">
             Import Journal
-            <img src="{{ url_for('static', filename='images/import-icon.png') }}" alt="unlock-icon">
+            <img src="{{ url_for('static', filename='images/import-icon.png') }}" alt="import-icon">
         </a>
+        </form>
         <p>
             Unlock & Read your previously written journals which were encrypted using this app itself
         </p>

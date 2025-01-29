@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../static/css/styling.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aref+Ruqaa|Mirza|Roboto" />
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/png" sizes="96x96">
     <title>Import Journal</title>
     <style>
         body {
@@ -66,27 +67,75 @@
         #editor {
             text-wrap: pretty;
         }
+        #read-journal {
+            display: none;
+        }
+        #import-journal {
+            display: block;
+        }
+        #import-form {
+            width: 80%;
+            margin: 10px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 40px auto;
+        }
+        #import-form input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            color: #333;
+        }
+        #import-btn {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Import Journal</h1>
-    <p id="error"></p>
+    <div id="read-journal">
+        <h1>Read Journal</h1>
+        <p id="error"></p>
 
-    <div id="font-selector">
-        <select class="ql-font">
-            <option selected value="aref-ruqaa">Aref Ruqaa</option>
-            <option value="mirza">Mirza</option>
-            <option value="roboto">Roboto</option>
-        </select>
-    </div> 
-    <div id="main">
-        <div id="editor">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus, sequi tempore minus cumque exercitationem doloremque fuga? Corrupti consectetur error excepturi quae asperiores consequatur, eaque enim nemo voluptas laborum fuga nulla, in beatae voluptatum, quisquam nam dolor dignissimos ut quibusdam nisi incidunt natus. Eius quis debitis atque maxime voluptatum explicabo necessitatibus expedita dolorum aspernatur similique unde doloribus porro mollitia quae animi iusto nam laboriosam quia fugit voluptate dicta praesentium, aperiam est? Ratione quasi, aliquid nam in odio fugit molestiae. Alias dignissimos dolorum modi odit labore quis nesciunt, unde eveniet dicta rerum repellat ipsam repudiandae nostrum optio blanditiis, tempora nihil laudantium et? Iste magni voluptatem optio suscipit voluptate corporis laudantium perspiciatis, quisquam fugit consequatur eaque nisi quasi quos laboriosam, neque modi quod.
+        <div id="font-selector">
+            <select class="ql-font">
+                <option selected value="aref-ruqaa">Aref Ruqaa</option>
+                <option value="mirza">Mirza</option>
+                <option value="roboto">Roboto</option>
+            </select>
+        </div> 
+        <div id="main">
+            <div id="editor">
+                {{ content }}
+            </div>
         </div>
-    </div>     
+    </div>
+    <div id="import-journal">
+        <form id="import-form">
+            <input type="file" id="file-input" accept=".enc">
+            <input type="password" id="password-input" placeholder="Enter password">
+            <button id="import-btn">
+                Decrypt Journal File
+            </button>
+        </form>
+    </div>
+
 
     <div id="btns-row">
-        <button>Back</button>
+        <a class="btn" href="/" id="back">Back</a>
     </div>
 
 
@@ -102,6 +151,52 @@
             const font = event.target.value;
             document.querySelector('#editor .ql-editor').style.fontFamily = font;
             document.querySelector('#font-selector select').style.fontFamily = font;
+        });
+
+        // request for importing journal
+        document.getElementById("import-btn").addEventListener("click", function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById("file-input");
+            const passwordInput = document.getElementById("password-input");
+            const file = fileInput.files[0];
+            const password = passwordInput.value;
+
+            if (!file) {
+                alert("Please select a file");
+                return;
+            }
+            if (!password) {
+                alert("Please enter a password");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = event.target.result;
+                fetch('/import', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ "file": data, "password": password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        quill.setText(data.decrypted_content);
+                        // hide the import-journal section
+                        document.getElementById("import-journal").style.display = "none";
+                        // show the read-journal section
+                        document.getElementById("read-journal").style.display = "block";
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            };
+            reader.onerror = function(event) {
+                console.error('Error reading file:', event.target.error);
+            };
+            reader.readAsText(file);
         });
     </script>
 </body>

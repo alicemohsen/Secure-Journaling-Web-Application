@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, Response
-from gcm import encrypt_journal
+from flask import Flask, render_template, request, Response, jsonify
+from gcm import encrypt_journal, decrypt_journal
 
 
 app = Flask(
@@ -19,9 +19,26 @@ def create_page():
     return render_template('create.html')
 
 
-@app.route('/import')
+@app.route('/import', methods=['GET', 'POST'])
 def import_page():
-    return render_template('import.html')
+    if request.method == 'GET':
+        return render_template('import.html')
+    elif request.method == 'POST':
+        # Access the uploaded file and password
+        uploaded_file: str = request.json['file']
+        password = request.json['password'].strip()
+
+        if not uploaded_file:
+            return jsonify({"error": "No file uploaded"}), 400
+        if not password:
+            return jsonify({"error": "Password is required"}), 400
+
+        # Read the encrypted file data
+        encrypted_data = uploaded_file
+        # Decrypt the file using the provided password
+        decrypted_content = decrypt_journal(password, encrypted_data)
+        # Return the decrypted content as a response
+        return jsonify({"decrypted_content": decrypted_content})
 
 
 @app.route('/export', methods=['POST'])
