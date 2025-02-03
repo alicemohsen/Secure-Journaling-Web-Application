@@ -3,50 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styling.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/png" sizes="96x96">
-    <style>
-        body {
-            display: grid;
-            grid-template-rows: 1fr 4fr 1fr;
-        }
-        h1 {
-            font-size: 40px;
-            padding-left: 30px;
-            margin: 30px 0;
-        }
-        form#main {
-            width: 80%;
-            position: relative;
-            margin: 20px auto;
-            display: flex;
-            flex-direction: column;
-        }
-        form#main > * {
-            width: 100%;
-            border-color: var(--violet-1);
-            border-width: 2px;
-        }
-        #editor {
-            height: 90%;
-            overflow-y: auto;
-        }
-        form#main input {
-            outline: none;
-            border: none;
-            border-radius: 25px;
-            margin: 10px 0;
-            padding: 10px 20px;
-        }
-    </style>
     <title>Create Journal</title>
 </head>
 <body>
     <h1>Write Your Journal</h1>
     <form id="main" action="">
         <div id="editor"></div>
-        <input type="text" id="password" placeholder="Password" required>
+        <input type="password" id="password" placeholder="Password" required>
     </form>
     <div id="btns-row">
         <a class="btn" href="/" id="back">Back</a>

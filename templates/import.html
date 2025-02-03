@@ -3,107 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/styling.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/import_styles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aref+Ruqaa|Mirza|Roboto" />
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/png" sizes="96x96">
     <title>Import Journal</title>
-    <style>
-        body {
-            display: grid;
-            grid-template-rows: 1fr 4fr 1fr;
-        }
-        h1 {
-            font-size: 40px;
-            padding-left: 40px;
-            margin: 30px 0;
-        }
-        #font-selector {
-            width: 80%;
-            margin: 10px auto;
-        }
-        #font-selector select {
-            width: 100%;
-            padding: 8px;
-            font-size: 16px;
-            background-color: #f0f0f0;  /* Background color */
-            border: 2px solid #ccc;  /* Border around the select */
-            border-radius: 5px;  /* Rounded corners */
-            color: #333;  /* Text color */
-            font-family: 'Roboto', sans-serif;  /* Default font for dropdown */
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        #font-selector select {
-            font-family: 'Aref Ruqaa';
-        }
-        #editor {
-            font-family: 'Aref Ruqaa';
-            font-size: 18px;
-            height: 375px;
-            border: none;
-            overflow-y: scroll;
-        }
-        #main {
-            width: 80%;
-            margin: 10px auto;
-        }
-        /* Set dropdown font-families */
-        #font-selector option[value="aref-ruqaa"] {
-            font-family: 'Aref Ruqaa';
-        }
-        #font-selector option[value="mirza"] {
-            font-family: 'Mirza';
-        }
-        #font-selector option[value="roboto"] {
-            font-family: 'Roboto';
-        }
-        /* Set content font-families */
-        .ql-font-mirza {
-            font-family: 'Mirza';
-        }
-        .ql-font-roboto {
-            font-family: 'Roboto';
-        }
-        #editor {
-            text-wrap: pretty;
-        }
-        #read-journal {
-            display: none;
-        }
-        #import-journal {
-            display: block;
-        }
-        #import-form {
-            width: 80%;
-            margin: 10px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 40px auto;
-        }
-        #import-form input {
-            width: 100%;
-            padding: 8px;
-            font-size: 16px;
-            background-color: #f0f0f0;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            color: #333;
-        }
-        #import-btn {
-            width: 100%;
-            padding: 8px;
-            font-size: 16px;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <div id="read-journal">
